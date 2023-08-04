@@ -1,4 +1,4 @@
-# Node & Express API Starter For 2022 & 2023
+# My blog Node JS Express API
 
 _"A minimally opinionated node & express starter for 2022 & 2023"_
 
@@ -27,5 +27,7 @@ A `POST` request to `/` will echo any json sent in the request body.
 ## Help out
 
 Feedback and contributions are very welcome.
+
 # set-2023-day-17
+
 # set-2023-day-17
