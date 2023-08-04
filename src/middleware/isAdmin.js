@@ -4,11 +4,10 @@ import query from "../database";
 
 async function isAdmin(req, res, next) {
   const data = await query("SELECT is_admin FROM users WHERE id = $1", [
-    req.user.id,
+    req.user,
   ]);
-  //   console.log("WTF", data);
+  console.log(data);
   const user = data.rows[0];
-  console.log(data.rows[0]);
   if (user.is_admin === true) {
     next();
   } else {

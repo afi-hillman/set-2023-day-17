@@ -7,6 +7,7 @@ import errorHandler from "./middleware/errorHandler";
 import fourOhFour from "./middleware/fourOhFour";
 import root from "./routes/root";
 import apiRoutes from "./routes/api";
+import session from "express-session";
 
 const app = express();
 
@@ -20,6 +21,17 @@ app.use(
 );
 app.use(helmet());
 app.use(morgan("tiny"));
+
+const oneDay = 1000 * 60 * 60 * 24;
+// Apply session
+app.use(
+  session({
+    secret: config.sessionSecretToken,
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false,
+  })
+);
 
 // Apply routes before error handling
 app.use("/", root);

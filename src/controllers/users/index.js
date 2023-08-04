@@ -24,27 +24,30 @@ async function getSingleUser(req, res) {
   }
 }
 
-async function update(req, res) {
-  console.log(req.body);
-  const data = await query("SELECT * FROM users");
-  console.log("list of accounts:", data.rows[0].username);
+// async function update(req, res) {
+//   console.log(req.body);
+//   const data = await query("SELECT * FROM users");
+//   console.log("list of accounts:", data.rows[0].username);
 
-  // try {
-  //   const newUsername = req.body.newUsername;
-  //   const data = await query(
-  //     "UPDATE users SET username = $1 WHERE username = $2",
-  //     [newUsername, req.user.id]
-  //   );
-  //   if (data.rowCount === 0) {
-  //     return res.status(404).json({ message: "User not found!" });
-  //   } else {
-  //     req.user.username = newUsername;
-  //     res.status(200).json({ message: "Username updated!", newUsername });
-  //   }
-  // } catch (error) {
-  //   console.error("Error updating username:", error);
-  //   res.status(500).json({ message: "Error updating username!" });
-  // }
-}
-const userController = { getAllUsers, getSingleUser, update };
+// try {
+//   const newUsername = req.body.newUsername;
+//   const data = await query(
+//     "UPDATE users SET username = $1 WHERE username = $2",
+//     [newUsername, req.user.id]
+//   );
+//   if (data.rowCount === 0) {
+//     return res.status(404).json({ message: "User not found!" });
+//   } else {
+//     req.user.username = newUsername;
+//     res.status(200).json({ message: "Username updated!", newUsername });
+//   }
+// } catch (error) {
+//   console.error("Error updating username:", error);
+//   res.status(500).json({ message: "Error updating username!" });
+// }
+const userController = {
+  getAllUsers,
+  getSingleUser,
+};
+// const userController = { getAllUsers, getSingleUser, update };
 export default userController;
