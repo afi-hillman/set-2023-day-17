@@ -22,17 +22,28 @@ async function getSinglePost(req, res) {
 
 async function insertPost(req, res) {
   const { title, content, slug } = req.body;
-  console.log(req.body);
-  await query(
-    "INSERT INTO posts (author_id, author_name, title, post_body, slug) SELECT users.id AS author_id, users.username AS author_name, title = $1 , content = $2 , slug = $3 FROM users;",
-    [title, content, slug]
-  );
+  const user = req.session.auth;
+  const data = await query("SELECT id, username FROM users WHERE id = $1", [
+    user,
+  ]);
+  if (!data) {
+    res.status(400).json({ message: "failed to insert post!" });
+  } else {
+    console.log(data.rows[0].username);
+    const authorId = data.rows[0].id;
+    const authorName = data.rows[0].username;
+    await query(
+      "INSERT INTO posts (author_id, author_name, title, post_body, slug) VALUES ($1, $2, $3, $4, $5)",
+      [authorId, authorName, title, content, slug]
+    );
+    res.status(200).json({ message: "post insertion successful!" });
+  }
 }
 
-const contentController = {
+const postController = {
   getAllPosts,
   getSinglePost,
   insertPost,
 };
 
-export default contentController;
+export default postController;
