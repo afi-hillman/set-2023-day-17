@@ -27,16 +27,20 @@ apiRoutes.get("/posts/:slug", isAuthenticated, postController.getSinglePost);
 apiRoutes.post("/create-post", isAuthenticated, postController.insertPost);
 
 // comments
-// apiRoutes.get("/posts/:slug/comments", commentController);
+apiRoutes.get(
+  "/posts/:slug/comments",
+  isAuthenticated,
+  commentController.getPostWithComments
+);
 // apiRoutes.get(
 //   "/posts/comments/:slug",
 //   isAuthenticated,
 //   contentController.getSingleComment
 // );
-// apiRoutes.post(
-//   "/create-comment",
-//   isAuthenticated,
-//   contentController.insertComment
-// );
+apiRoutes.post(
+  "/posts/:slug/create-comment",
+  isAuthenticated,
+  commentController.insertComment
+);
 
 export default apiRoutes;
