@@ -14,9 +14,8 @@ apiRoutes.get(
   isAuthenticated,
   userController.getSingleUser
 );
-// apiRoutes.post("/update", userController.update);
-// apiRoutes.put("/users", userController.update);
-// apiRoutes.put("/users", isAuthenticated, userController.update);
+
+apiRoutes.put("/users/update", isAuthenticated, userController.updateUser);
 apiRoutes.post("/register", authController.register);
 apiRoutes.post("/login", authController.login);
 apiRoutes.get("/logout", isAuthenticated, authController.logout);

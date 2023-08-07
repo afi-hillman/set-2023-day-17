@@ -24,6 +24,28 @@ async function getSingleUser(req, res) {
   }
 }
 
+async function updateUser(req, res) {
+  const newUsername = req.body.newUsername;
+  const userId = req.session.auth;
+  const usernameData = await query("SELECT username FROM users");
+  for (let i = 0; i < usernameData.rows.length; i++) {
+    const existingUsername = usernameData.rows[i].username;
+    if (newUsername === existingUsername) {
+      res.status(400).json({ message: "username is already taken!" });
+      return;
+    } else {
+      await query(
+        "UPDATE users SET username = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2",
+        [newUsername, userId]
+      );
+      res
+        .status(200)
+        .json({ message: "username has been updated successfully!" });
+      return;
+    }
+  }
+}
+
 // async function update(req, res) {
 //   console.log(req.body);
 //   const data = await query("SELECT * FROM users");
@@ -48,6 +70,7 @@ async function getSingleUser(req, res) {
 const userController = {
   getAllUsers,
   getSingleUser,
+  updateUser,
 };
 // const userController = { getAllUsers, getSingleUser, update };
 export default userController;
