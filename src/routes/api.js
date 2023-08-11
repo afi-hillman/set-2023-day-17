@@ -31,15 +31,20 @@ apiRoutes.get(
   isAuthenticated,
   commentController.getPostWithComments
 );
-// apiRoutes.get(
-//   "/posts/comments/:slug",
-//   isAuthenticated,
-//   contentController.getSingleComment
-// );
 apiRoutes.post(
   "/posts/:slug/create-comment",
   isAuthenticated,
   commentController.insertComment
 );
+// apiRoutes.get(
+//   "/posts/comments/:slug",
+//   isAuthenticated,
+//   contentController.getSingleComment
+// );
+// apiRoutes.put(
+//   "/posts/:slug/edit-comment",
+//   isAuthenticated,
+//   commentController.editComment
+// );
 
 export default apiRoutes;

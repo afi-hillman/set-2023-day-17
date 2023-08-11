@@ -10,6 +10,15 @@ async function register(req, res) {
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = bcrypt.hashSync(password, salt);
 
+  const existingUser = await query(
+    "SELECT * FROM users WHERE email = $1 OR username = $2",
+    [email, username]
+  );
+  if (existingUser.rows.length > 0) {
+    return res
+      .status(400)
+      .json({ message: "Username or email already exists." });
+  }
   await query(
     "INSERT INTO users (email, username, password, is_admin) VALUES ($1, $2, $3, $4)",
     [email, username, hashedPassword, is_admin]
@@ -32,7 +41,7 @@ async function login(req, res) {
   if (!user) {
     res
       .status(400)
-      .json({ message: "login unsucessful!", error: "invalid credentials!" });
+      .json({ message: "login unsuccessful!", error: "invalid credentials!" });
     return;
   }
 

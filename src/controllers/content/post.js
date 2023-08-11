@@ -6,7 +6,7 @@ async function getAllPosts(req, res) {
   const data = await query("SELECT * FROM posts ORDER BY id ASC");
   const posts = data.rows;
 
-  res.status(200).json({ "List of posts available to view!": posts });
+  res.status(200).json({ posts });
 }
 
 async function getSinglePost(req, res) {

@@ -38,17 +38,46 @@ async function insertComment(req, res) {
     const postData = await query("SELECT id FROM posts WHERE slug = $1", [
       slug,
     ]);
-    console.log(postData);
+    console.log(postData.rows);
     const postId = postData.rows[0].id;
     const authorId = userData.rows[0].id;
     const authorName = userData.rows[0].username;
-    await query(
-      "INSERT INTO comments (post_id, author_id, author_name, comment_body) VALUES ($1, $2, $3, $4)",
-      [postId, authorId, authorName, content]
-    );
-    res.status(200).json({ message: "comment successfully inserted!" });
+    if (!postData.rows) {
+      res.status(400).json({ message: "insert for existing post!" });
+    } else {
+      await query(
+        "INSERT INTO comments (post_id, author_id, author_name, comment_body) VALUES ($1, $2, $3, $4)",
+        [postId, authorId, authorName, content]
+      );
+      res.status(200).json({ message: "comment successfully inserted!" });
+    }
   }
 }
+
+// async function editComment(req, res) {
+//   const{ editComment } = req.body;
+//   const user = req.session.auth;
+//   const userData = await query("SELECT id, username FROM users WHERE id = $1", [
+//     user,
+//   ]);
+//   if (!userData) {
+//     res
+//       .status(400)
+//       .json({ message: "you don't have any existing comments to edit!" });
+//   } else {
+//     const slug = req.params.slug;
+//     const postData = await query("SELECT id FROM posts WHERE slug = $1", [
+//       slug,
+//     ]);
+//     const postId = postData.rows[0].id;
+
+//     await query(
+//       "UPDATE comments SET comment_body = $1, updated_at = CURRENT_TIMESTAMP WHERE post_id = $2, id = $3",
+//       [editComment.comment, postId, editComment.id]
+//     );
+//     res.status(200).json({ message: "comment successfully edited!" });
+//   }
+// }
 
 const commentController = {
   getPostWithComments,
